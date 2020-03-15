@@ -1,9 +1,9 @@
 package models
 
 type Post struct {
-	ID     uint   `json:"id"`
+	ID     int    `json:"id"`
 	Title  string `json:"title" gorm:"not null"`
-	UserID uint   `json:"-"`
+	UserID int    `json:"-"`
 }
 
 func (u *Post) TableName() string {

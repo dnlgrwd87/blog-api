@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"errors"
@@ -10,13 +10,21 @@ type UserService struct {
 	DB *gorm.DB
 }
 
-func (service *UserService) GetAllUsers() []models.User {
-	var users []models.User
-	service.DB.Find(&users)
-	return users
+type UserServiceInterface interface {
+	GetAllUsers() ([]models.User, error)
+	GetUserById(id int) (models.User, error)
+	CreateUser(user models.User) (models.User, error)
 }
 
-func (service *UserService) GetUserById(id string) (models.User, error) {
+func (service *UserService) GetAllUsers() ([]models.User, error) {
+	var users []models.User
+	if res := service.DB.Find(&users); res.Error != nil {
+		return users, res.Error
+	}
+	return users, nil
+}
+
+func (service *UserService) GetUserById(id int) (models.User, error) {
 	var user models.User
 	if service.DB.Preload("Posts").First(&user, id).RecordNotFound() {
 		return models.User{}, errors.New("user not found")
