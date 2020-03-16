@@ -30,7 +30,7 @@ func main() {
 	r.Use(config.GetCors().Handler)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.Route("/user", func(r chi.Router) {
+	r.Route("/users", func(r chi.Router) {
 		r.Get("/", userHandler.GetUsers)
 		r.Get("/{id}", userHandler.GetUserById)
 		r.Post("/", userHandler.CreateUser)

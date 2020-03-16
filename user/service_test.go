@@ -9,10 +9,28 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var expectedUser = models.User{
+	ID:        1,
+	FirstName: "Daniel",
+	LastName:  "Garwood",
+	Email:     "dnlgrwd@gmail.com",
+	Posts: []models.Post{
+		{ID: 1, Title: "My first post"},
+	},
+}
+
+var expectedUserList = []models.UserListDTO{
+	{
+		ID:        1,
+		FirstName: "Daniel",
+		LastName:  "Garwood",
+		Email:     "dnlgrwd@gmail.com",
+	},
+}
+
 var _ = Describe("Service", func() {
 	Context("#GetAllUsers", func() {
-		It("will return a list of user", func() {
-			expectedUser := models.User{ID: 1, FirstName: "Daniel", LastName: "Garwood", Email: "dnlgrwd@gmail.com"}
+		It("will return a list of users", func() {
 			db, mock, _ := sqlmock.New()
 			mockDb, _ := gorm.Open("postgres", db)
 			defer mockDb.Close()
@@ -26,26 +44,19 @@ var _ = Describe("Service", func() {
 			users, err := service.GetAllUsers()
 
 			if err != nil {
-				Fail("error should not have occurred")
+				Fail("Error should not have occurred")
 			}
 
 			if err := mock.ExpectationsWereMet(); err != nil {
 				Fail("Expectations were not met")
 			}
 
-			Expect(users[0]).To(Equal(expectedUser))
+			Expect(users[0]).To(Equal(expectedUserList[0]))
 		})
 	})
 
 	Context("#GetUserById", func() {
 		It("will return a single user with post", func() {
-			expectedUser := models.User{
-				ID:        1,
-				FirstName: "Daniel",
-				LastName:  "Garwood",
-				Email:     "dnlgrwd@gmail.com",
-				Posts:     []models.Post{{ID: 1, Title: "My first post"}},
-			}
 			db, mock, _ := sqlmock.New()
 			mockDb, _ := gorm.Open("postgres", db)
 			defer mockDb.Close()

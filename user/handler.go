@@ -51,6 +51,11 @@ func (handler *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createdUser, _ := handler.Service.CreateUser(user)
+	createdUser, err := handler.Service.CreateUser(user)
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	helpers.RespondwithJSON(w, http.StatusOK, createdUser)
 }

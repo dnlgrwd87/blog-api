@@ -11,13 +11,13 @@ type UserService struct {
 }
 
 type UserServiceInterface interface {
-	GetAllUsers() ([]models.User, error)
+	GetAllUsers() ([]models.UserListDTO, error)
 	GetUserById(id int) (models.User, error)
 	CreateUser(user models.User) (models.User, error)
 }
 
-func (service *UserService) GetAllUsers() ([]models.User, error) {
-	var users []models.User
+func (service *UserService) GetAllUsers() ([]models.UserListDTO, error) {
+	var users []models.UserListDTO
 	if res := service.DB.Find(&users); res.Error != nil {
 		return users, res.Error
 	}
@@ -34,7 +34,7 @@ func (service *UserService) GetUserById(id int) (models.User, error) {
 
 func (service *UserService) CreateUser(user models.User) (models.User, error) {
 	if err := service.DB.Create(&user).Error; err != nil {
-		return models.User{}, err
+		return models.User{}, errors.New("error creating user")
 	}
 	return user, nil
 }

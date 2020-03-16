@@ -7,10 +7,21 @@ type User struct {
 	FirstName string `json:"firstName" gorm:"not null"`
 	LastName  string `json:"lastName" gorm:"not null"`
 	Email     string `json:"email" gorm:"not null"`
-	Posts     []Post `json:"post" gorm:"foreignkey:UserID"`
+	Posts     []Post `json:"posts" gorm:"foreignkey:UserID"`
+}
+
+type UserListDTO struct {
+	ID        int    `json:"id"`
+	FirstName string `json:"firstName" gorm:"not null"`
+	LastName  string `json:"lastName" gorm:"not null"`
+	Email     string `json:"email" gorm:"not null"`
 }
 
 func (u *User) TableName() string {
+	return "users"
+}
+
+func (u *UserListDTO) TableName() string {
 	return "users"
 }
 
