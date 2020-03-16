@@ -21,10 +21,6 @@ func (u *User) TableName() string {
 	return "users"
 }
 
-func (u *UserListDTO) TableName() string {
-	return "users"
-}
-
 func (u *User) ValidateUserJson() error {
 	if u.FirstName == "" {
 		return errors.New("body is missing field firstName")
@@ -36,4 +32,17 @@ func (u *User) ValidateUserJson() error {
 		return errors.New("body is missing field email")
 	}
 	return nil
+}
+
+func MapToUserListDTO(users []User) []UserListDTO {
+	var userList []UserListDTO
+	for _, user := range users {
+		userList = append(userList, UserListDTO{
+			ID:        user.ID,
+			FirstName: user.FirstName,
+			LastName:  user.LastName,
+			Email:     user.Email,
+		})
+	}
+	return userList
 }

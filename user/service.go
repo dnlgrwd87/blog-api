@@ -17,11 +17,13 @@ type UserServiceInterface interface {
 }
 
 func (service *UserService) GetAllUsers() ([]models.UserListDTO, error) {
-	var users []models.UserListDTO
+	var users []models.User
 	if res := service.DB.Find(&users); res.Error != nil {
-		return users, res.Error
+		return []models.UserListDTO{}, res.Error
 	}
-	return users, nil
+
+	userList := models.MapToUserListDTO(users)
+	return userList, nil
 }
 
 func (service *UserService) GetUserById(id int) (models.User, error) {
