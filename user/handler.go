@@ -10,7 +10,7 @@ import (
 )
 
 type UserHandler struct {
-	Service UserServiceInterface
+	UserService UserServiceInterface
 }
 
 type UserHandlerInterface interface {
@@ -20,7 +20,7 @@ type UserHandlerInterface interface {
 }
 
 func (handler *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := handler.Service.GetAllUsers()
+	users, err := handler.UserService.GetAllUsers()
 
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusInternalServerError, err.Error())
@@ -32,7 +32,7 @@ func (handler *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 func (handler *UserHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	userID, _ := strconv.Atoi(chi.URLParam(r, "id"))
-	user, err := handler.Service.GetUserById(userID)
+	user, err := handler.UserService.GetUserById(userID)
 
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusNotFound, err.Error())
@@ -51,7 +51,7 @@ func (handler *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createdUser, err := handler.Service.CreateUser(user)
+	createdUser, err := handler.UserService.CreateUser(user)
 	if err != nil {
 		helpers.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return

@@ -21,7 +21,7 @@ var _ = Describe("Handler", func() {
 	Context("UserHandler", func() {
 		It("should respond with a list of users", func() {
 			userHandler := user.UserHandler{
-				Service: &user.MockUserService{},
+				UserService: &user.MockUserService{},
 			}
 
 			recorder := httptest.NewRecorder()
@@ -37,7 +37,7 @@ var _ = Describe("Handler", func() {
 		})
 		It("should respond with a single user with the passed in id", func() {
 			userHandler := user.UserHandler{
-				Service: &user.MockUserService{},
+				UserService: &user.MockUserService{},
 			}
 
 			recorder := httptest.NewRecorder()

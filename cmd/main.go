@@ -21,7 +21,7 @@ func main() {
 	config.AddContstraints(db)
 
 	userService := user.UserService{DB: db}
-	userHandler := user.UserHandler{Service: &userService}
+	userHandler := user.UserHandler{UserService: &userService}
 
 	r := chi.NewRouter()
 
