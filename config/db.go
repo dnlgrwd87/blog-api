@@ -6,6 +6,7 @@ import (
 	"github.com/dnlgrwd87/blog-api/models"
 	"github.com/go-chi/cors"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 	"log"
@@ -18,7 +19,8 @@ func InitializeDB() (*gorm.DB, error) {
 		log.Fatal("Error loading .env file")
 	}
 
-	db, err := gorm.Open("postgres", os.Getenv("DB_URL"))
+	db, err := gorm.Open("mysql", os.Getenv("DB_URL"))
+
 	if err != nil {
 		return &gorm.DB{}, errors.New(fmt.Sprintf("couldn't connect to the database: %v", err.Error()))
 	}

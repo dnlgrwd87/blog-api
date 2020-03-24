@@ -36,7 +36,7 @@ func main() {
 		r.Post("/", userHandler.CreateUser)
 	})
 
-	fmt.Println("Listenting on port 3000")
+	fmt.Println("Listening on port 8000")
 
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":8000", r)
 }

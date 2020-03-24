@@ -11,25 +11,24 @@ type UserService struct {
 }
 
 type UserServiceInterface interface {
-	GetAllUsers() ([]models.UserListDTO, error)
-	GetUserById(id int) (models.User, error)
+	GetAllUsers() ([]models.User, error)
+	GetUserById(id int) (models.UserPostsDTO, error)
 	CreateUser(user models.User) (models.User, error)
 }
 
-func (service *UserService) GetAllUsers() ([]models.UserListDTO, error) {
+func (service *UserService) GetAllUsers() ([]models.User, error) {
 	var users []models.User
 	if res := service.DB.Find(&users); res.Error != nil {
-		return []models.UserListDTO{}, res.Error
+		return []models.User{}, res.Error
 	}
 
-	userList := models.MapToUserListDTO(users)
-	return userList, nil
+	return users, nil
 }
 
-func (service *UserService) GetUserById(id int) (models.User, error) {
-	var user models.User
+func (service *UserService) GetUserById(id int) (models.UserPostsDTO, error) {
+	var user models.UserPostsDTO
 	if service.DB.Preload("Posts").First(&user, id).RecordNotFound() {
-		return models.User{}, errors.New("user not found")
+		return models.UserPostsDTO{}, errors.New("user not found")
 	}
 	return user, nil
 }
@@ -38,5 +37,6 @@ func (service *UserService) CreateUser(user models.User) (models.User, error) {
 	if err := service.DB.Create(&user).Error; err != nil {
 		return models.User{}, errors.New("error creating user")
 	}
+
 	return user, nil
 }
