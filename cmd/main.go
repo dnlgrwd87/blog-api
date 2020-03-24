@@ -6,8 +6,6 @@ import (
 	"github.com/dnlgrwd87/blog-api/user"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	_ "github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"net/http"
 )
 
