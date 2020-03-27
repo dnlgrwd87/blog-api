@@ -104,7 +104,7 @@ var _ = Describe("Service", func() {
 
 			mock.ExpectBegin()
 			mock.ExpectExec(`INSERT INTO .users`).
-				WithArgs("Daniel", "Garwood", "dnlgrwd@gmail.com").
+				WithArgs("Fail", "Garwood", "dnlgrwd@gmail.com").
 				WillReturnResult(sqlmock.NewResult(1, 1))
 			mock.ExpectCommit()
 
